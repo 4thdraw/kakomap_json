@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="store">
+        <ul>
+            <!-- 데이터에 맞춤 -->
+           
+         </ul>
+    </div>
+     
+
+
+
+    <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+          
+            $.ajax({
+                url : "/project/data/store.json",
+                type : "GET",
+                dataType :"json",
+                success : function(mapinfo){
+                    console.log("지점정보", mapinfo);
+                    //object의 키는 동일하므로 하나만 가져와서 array화한다.
+                    const clsnmkey = Object.keys(mapinfo[0])
+
+                    let maptag = ''; // 반드시 초기값 선언은 for, forEach 안에서 하지않는다. 대입식도 역시 없다
+
+
+                    mapinfo.forEach(function(ele, idx){
+                        maptag += `<li>`;
+                        maptag += `<h2 class='${clsnmkey[0]}'><strong>지점명</strong><span>${ele.storenm}</span></h2>`;
+                        maptag += `<p class='${clsnmkey[1]}'><strong>지점장</strong><span>${ele.storeem}</span></p>`;
+                        maptag += `<p class='${clsnmkey[3]}'><strong>주소</strong><span>${ele.addr}</span></p>`;
+                        maptag += `</li>`;
+                    });                   
+
+                    $("#store ul").html(maptag);
+
+                },
+                error : function(){
+
+                }
+            })
+        })
+    </script>
+</body>
+</html>
